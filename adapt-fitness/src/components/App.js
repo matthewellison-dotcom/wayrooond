@@ -104,9 +104,8 @@ const dayName = () => new Date().toLocaleDateString("en-GB", { weekday: "long", 
 
 // ─── PERSISTENT STORAGE ───────────────────────────────────────────────────────
 const STORE_KEY = "adapt_v2";
-const loadStore = () => { try { const d = localStorage.getItem(STORE_KEY); return d ? JSON.parse(d) : null; } catch { return null; } };
-const saveStore = (data) => { try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch {} };
-
+const loadStore = () => { if (typeof window === "undefined") return null; try { const d = localStorage.getItem(STORE_KEY); return d ? JSON.parse(d) : null; } catch { return null; } };
+const saveStore = (data) => { if (typeof window === "undefined") return; try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch {} };
 // ─── ANTHROPIC API ────────────────────────────────────────────────────────────
 // Streaming call -> /api/ai (for AI Coach)
 async function callClaude(messages, systemPrompt, onChunk) {
